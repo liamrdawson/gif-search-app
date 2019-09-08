@@ -3,13 +3,15 @@ import './App.css';
 import axios from 'axios';
 import SearchForm from './Components/SearchForm';
 import GifList from './Components/GifList';
+import NoGifs from './Components/NoGifs';
 
 export default class App extends Component {
   
   constructor() {
     super();
     this.state = {
-      gifs: []
+      gifs: [],
+      loading: true
     };
   } 
 
@@ -21,7 +23,8 @@ export default class App extends Component {
     axios.get(`https://api.giphy.com/v1/gifs/search?api_key=nX9Sgh1nFxcjD94hGwaXDjEyC6m9BxoF&q=${query}&limit=24&offset=0&rating=G&lang=en`)
     .then(response => {
       this.setState({
-        gifs: response.data.data
+        gifs: response.data.data,
+        loading: false
       });
     })
     .catch(error => {
@@ -40,7 +43,11 @@ export default class App extends Component {
           </div>   
         </div>    
         <div className="main-content">
-          <GifList data={this.state.gifs}/>
+          {
+            (this.state.loading)
+            ? <p>Loading...</p>
+            : <GifList data={this.state.gifs}/>
+          }
         </div>
       </div>
     );
