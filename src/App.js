@@ -13,7 +13,11 @@ export default class App extends Component {
     };
   } 
 
-  performSearch = (query) => {
+  componentDidMount() {
+    this.performSearch();
+  }
+
+  performSearch = (query = 'cats') => {
     axios.get(`https://api.giphy.com/v1/gifs/search?api_key=nX9Sgh1nFxcjD94hGwaXDjEyC6m9BxoF&q=${query}&limit=24&offset=0&rating=G&lang=en`)
     .then(response => {
       this.setState({
