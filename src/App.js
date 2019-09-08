@@ -13,16 +13,16 @@ export default class App extends Component {
     };
   } 
 
-  componentDidMount() {
-    axios.get('https://api.giphy.com/v1/gifs/trending?api_key=nX9Sgh1nFxcjD94hGwaXDjEyC6m9BxoF&limit=25&rating=G')
-      .then(response => {
-        this.setState({
-          gifs: response.data.data
-        });
-      })
-      .catch(error => {
-        console.log('Oh no! Something went wrong.', error);
+  performSearch = (query) => {
+    axios.get(`https://api.giphy.com/v1/gifs/search?api_key=nX9Sgh1nFxcjD94hGwaXDjEyC6m9BxoF&q=${query}&limit=24&offset=0&rating=G&lang=en`)
+    .then(response => {
+      this.setState({
+        gifs: response.data.data
       });
+    })
+    .catch(error => {
+      console.log('Oh no! Something went wrong.', error);
+    });
   }
 
   render() { 
@@ -32,7 +32,7 @@ export default class App extends Component {
         <div className="main-header">
           <div className="inner">
             <h1 className="main-title">GifSearch</h1>
-            <SearchForm />      
+            <SearchForm onSearch={this.performSearch}/>      
           </div>   
         </div>    
         <div className="main-content">
